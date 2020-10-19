@@ -4,15 +4,6 @@ from PySide2.QtCore import QObject
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QLCDNumber, QStackedWidget, QWidget
 from win10toast import ToastNotifier
-import ctypes
-from ctypes import wintypes
-lpBuffer = wintypes.LPWSTR()
-AppUserModelID = ctypes.windll.shell32.GetCurrentProcessExplicitAppUserModelID
-AppUserModelID(ctypes.cast(ctypes.byref(lpBuffer), wintypes.LPWSTR))
-appid = lpBuffer.value
-ctypes.windll.kernel32.LocalFree(lpBuffer)
-if appid is not None:
-    print(appid)
 
 class MainPage(QtWidgets.QWidget):
     def __init__(self, parent=None):
