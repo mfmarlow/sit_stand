@@ -1,9 +1,20 @@
 import sys
+from os import path
 from PySide2 import QtCore, QtGui, QtWidgets
 from PySide2.QtCore import QObject
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QLCDNumber, QStackedWidget, QWidget
 from win10toast import ToastNotifier
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = path.abspath(".")
+
+    return path.join(base_path, relative_path)
 
 class MainPage(QtWidgets.QWidget):
     def __init__(self, parent=None):
@@ -63,7 +74,7 @@ class Timer(QLCDNumber):
     
     def alertUser(self):
         toast = ToastNotifier()
-        toast.show_toast("ALERT", "Time is up!", duration=5, threaded= True)
+        toast.show_toast("ALERT", "Time is up!", duration=5, threaded= True, icon_path=resource_path('./images/appicon.ico'))
 
 class TimerPage(QtWidgets.QWidget):
     def __init__(self, sitStandID, inputTime):
@@ -117,7 +128,7 @@ STAND_TIMER = 1
 # Create Qt App
 app = QtWidgets.QApplication(sys.argv)
 app.setApplicationDisplayName("Sit_Stand")
-icon = QIcon('images/icon.png')
+icon = QIcon(resource_path('./images/icon.png'))
 app.setWindowIcon(icon)
 
 # Create and Show Elements
